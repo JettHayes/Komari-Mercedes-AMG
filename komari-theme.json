@@ -1,13 +1,7 @@
 {
-    "name": {
-        "zh-CN": "Komari Mercedes-AMG",
-        "en": "Komari Mercedes-AMG"
-    },
+    "name": "Komari Mercedes-AMG",
     "short": "amg-race-control",
-    "description": {
-        "zh-CN": "Mercedes-AMG PETRONAS F1 Race Control 风格的 Komari 监控主题",
-        "en": "Mercedes-AMG PETRONAS F1 Race Control theme for Komari Monitor"
-    },
+    "description": "Mercedes-AMG PETRONAS F1 Race Control 风格的 Komari 监控主题 / Mercedes-AMG PETRONAS F1 Race Control theme for Komari Monitor",
     "version": "1.0.1",
     "author": "Jett Hayes",
     "url": "https://github.com/JettHayes/Komari-Mercedes-AMG",
