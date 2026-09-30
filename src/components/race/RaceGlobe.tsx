@@ -20,7 +20,6 @@ import type { NodeBasicInfo } from "@/contexts/NodeListContext";
 import type { LiveData } from "@/types/LiveData";
 import { buildMapViewSummary, type MapRegionSummary } from "@/utils/mapRegions";
 import Flag from "@/components/Flag";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { getRegionDisplayName } from "@/utils/regionHelper";
 
 import "./RaceGlobe.css";
@@ -205,7 +204,7 @@ export default function RaceGlobe({
   const { t, i18n } = useTranslation();
   const summary = useMemo(() => buildMapViewSummary(nodes, liveData), [nodes, liveData]);
   const onlineSet = useMemo(() => new Set(liveData?.online ?? []), [liveData]);
-  const [autoRotate, setAutoRotate] = useLocalStorage("raceGlobe.autoOrbit", true);
+  const [autoRotate, setAutoRotate] = useState(true);
   const [callout, setCallout] = useState<Callout | null>(null);
   const [calloutOpen, setCalloutOpen] = useState(false);
   const [world, setWorld] = useState<WorldData | null>(null);
