@@ -499,7 +499,7 @@
 /* Timing tower row */
 .rc-tower-row {
   display: grid;
-  grid-template-columns: 36px 14px minmax(140px, 1.4fr) repeat(3, minmax(72px, 0.7fr)) minmax(110px, 1fr) minmax(80px, 0.7fr);
+  grid-template-columns: 36px 14px minmax(140px, 1.4fr) repeat(3, minmax(72px, 0.7fr)) minmax(110px, 1fr) minmax(96px, 0.8fr) minmax(88px, 0.75fr) minmax(80px, 0.7fr);
   gap: 0.75rem;
   align-items: center;
   padding: 0.7rem 1rem;
@@ -523,6 +523,50 @@
   .rc-tower-row > :nth-child(n + 7) {
     display: none;
   }
+}
+
+/* Billing meta — always reserve height so toggling guestDisplay does not reflow */
+.rc-billing-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 0.75rem;
+  min-height: 2.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in oklab, var(--amg-teal) 12%, transparent);
+}
+
+.rc-billing-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  min-height: 2.1rem;
+}
+
+.rc-billing-meta__item .rc-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+.rc-billing-meta__item[data-tone="crit"] .rc-mono {
+  color: var(--amg-red, #ef4444);
+}
+
+.rc-billing-meta__item[data-tone="warn"] .rc-mono {
+  color: rgb(245 158 11);
+}
+
+.rc-billing-cell {
+  min-height: 1.25rem;
+}
+
+.rc-billing-cell[data-tone="crit"] {
+  color: var(--amg-red, #ef4444);
+}
+
+.rc-billing-cell[data-tone="warn"] {
+  color: rgb(245 158 11);
 }
 
 /* Telemetry card grid */
@@ -777,9 +821,93 @@
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.55) inset;
 }
 
+.rc-footer__inner {
+  width: min(100%, 1400px);
+  margin: 0 auto;
+  padding: 1.1rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.85rem 1.25rem;
+  align-items: center;
+}
+
+.rc-footer__brand {
+  justify-self: start;
+  min-width: 0;
+}
+
+.rc-footer__title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rc-footer__sub {
+  margin-top: 0.2rem;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.rc-footer__meta {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: max-content;
+  max-width: min(100%, 28rem);
+  text-align: center;
+}
+
+.rc-footer__powered {
+  display: block;
+  width: 100%;
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+  word-break: break-word;
+  text-align: center;
+}
+
+.rc-footer__repo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.2rem 0.65rem 0.2rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--amg-teal) 28%, transparent);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  color: var(--amg-petronas);
+  text-decoration: none;
+  background: color-mix(in oklab, var(--amg-teal) 8%, transparent);
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.rc-footer__repo:hover {
+  border-color: color-mix(in oklab, var(--amg-teal) 55%, transparent);
+  background: color-mix(in oklab, var(--amg-teal) 16%, transparent);
+  color: var(--foreground);
+}
+
+.rc-footer__repo span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rc-footer__repo-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
 .rc-footer-badge {
   display: inline-block;
-  margin-top: 0.5rem;
+  justify-self: end;
   padding: 0.25rem 0.7rem;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
@@ -788,6 +916,27 @@
   border: 1px solid var(--amg-glass-border);
   border-radius: 999px;
   background: color-mix(in oklab, var(--amg-teal) 8%, transparent);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .rc-footer__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .rc-footer__brand,
+  .rc-footer__meta,
+  .rc-footer-badge {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .rc-footer__repo span {
+    max-width: 14rem;
+  }
 }
 
 /* Welcome bubble (legacy AMG side panel) */

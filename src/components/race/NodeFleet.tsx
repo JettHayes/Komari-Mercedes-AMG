@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getRegionDisplayName } from "@/utils/regionHelper";
+import { NodeBillingMeta } from "@/components/race/NodeBillingMeta";
 
 function localizeGroupLabel(group: string, t: (key: string, options?: { defaultValue?: string }) => string) {
   const key = group.trim().replace(/\s+/g, "_");
@@ -41,7 +42,7 @@ function TimingTower({
         className="hidden lg:grid px-4 py-2 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground border-b border-[var(--amg-glass-border)]"
         style={{
           gridTemplateColumns:
-            "36px 14px minmax(140px, 1.4fr) repeat(3, minmax(72px, 0.7fr)) minmax(110px, 1fr) minmax(80px, 0.7fr)",
+            "36px 14px minmax(140px, 1.4fr) repeat(3, minmax(72px, 0.7fr)) minmax(110px, 1fr) minmax(96px, 0.8fr) minmax(88px, 0.75fr) minmax(80px, 0.7fr)",
           gap: "0.75rem",
         }}
       >
@@ -52,6 +53,8 @@ function TimingTower({
         <span>{t("raceControl.ram")}</span>
         <span>{t("raceControl.disk")}</span>
         <span>{t("raceControl.network")}</span>
+        <span>{t("nodeCard.price", { defaultValue: "Price" })}</span>
+        <span>{t("nodeCard.expiredAt", { defaultValue: "Expires" })}</span>
         <span>{t("raceControl.uptime")}</span>
       </div>
       {nodes.map((node, index) => {
@@ -97,6 +100,7 @@ function TimingTower({
                 </div>
               ) : null}
             </div>
+            <NodeBillingMeta node={node} layout="cells" />
             <div className="rc-mono text-xs">{formatUptime(rec?.uptime ?? 0)}</div>
           </SpaLink>
         );
@@ -153,6 +157,7 @@ function TelemetryCards({
               <span>↓ {formatSpeed(rec?.network.down ?? 0)}</span>
               <span>{formatUptime(rec?.uptime ?? 0)}</span>
             </div>
+            <NodeBillingMeta node={node} layout="row" />
           </SpaLink>
         );
       })}
@@ -294,6 +299,8 @@ function DossierCards({
               </div>
             </dl>
 
+            <NodeBillingMeta node={node} layout="row" />
+
             <div className="rc-dossier__foot">
               <span className="truncate">{node.cpu_name || t("raceControl.unknown")}</span>
               <span className="rc-mono shrink-0">
@@ -315,7 +322,7 @@ export default function NodeFleet({
   liveData: LiveData;
 }) {
   const { t } = useTranslation();
-  const { nodeViewMode, setNodeViewMode } = useTheme();
+  const { nodeViewMode, setNodeViewMode, managedThemeSettings } = useTheme();
   const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGroup, setSelectedGroup] = useLocalStorage<string>("nodeSelectedGroup", "all");
@@ -334,18 +341,35 @@ export default function NodeFleet({
   }, [nodes]);
 
   const filtered = useMemo(() => {
-    let list = [...nodes].sort((a, b) => (b.weight || 0) - (a.weight || 0));
+    let list = [...nodes];
     if (selectedGroup !== "all") {
       list = list.filter((n) => n.group === selectedGroup);
     }
     const term = searchTerm.trim().toLowerCase();
-    if (!term) return list;
-    return list.filter((n) =>
-      [n.name, n.region, n.group, n.os, n.cpu_name, n.tags, n.ipv4, n.ipv6]
-        .filter(Boolean)
-        .some((v) => String(v).toLowerCase().includes(term))
-    );
-  }, [nodes, searchTerm, selectedGroup]);
+    if (term) {
+      list = list.filter((n) =>
+        [n.name, n.region, n.group, n.os, n.cpu_name, n.tags, n.ipv4, n.ipv6]
+          .filter(Boolean)
+          .some((v) => String(v).toLowerCase().includes(term))
+      );
+    }
+
+    const onlineSet = new Set(liveData.online ?? []);
+    const offlinePos = managedThemeSettings.offlineServerPosition || "Last";
+    list.sort((a, b) => {
+      const aOnline = onlineSet.has(a.uuid);
+      const bOnline = onlineSet.has(b.uuid);
+      if (offlinePos === "First") {
+        if (!aOnline && bOnline) return -1;
+        if (aOnline && !bOnline) return 1;
+      } else if (offlinePos !== "Keep") {
+        if (aOnline && !bOnline) return -1;
+        if (!aOnline && bOnline) return 1;
+      }
+      return (a.weight || 0) - (b.weight || 0);
+    });
+    return list;
+  }, [nodes, searchTerm, selectedGroup, liveData.online, managedThemeSettings.offlineServerPosition]);
 
   return (
     <div className="space-y-3">

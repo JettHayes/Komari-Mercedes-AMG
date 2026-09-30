@@ -7,9 +7,11 @@ import RemainingValueCalculator from "@/components/RemainingValueCalculator";
 import WelcomeBubble from "@/components/race/WelcomeBubble";
 import DocumentTitleSync from "@/components/DocumentTitleSync";
 
+// Komari server replaces these exact placeholders with site title/description.
+// See: https://komari-document.pages.dev/dev/theme
 export const metadata: Metadata = {
-  title: "AMG Race Control",
-  description: "Mercedes-AMG PETRONAS F1 inspired server race control dashboard.",
+  title: "Komari Monitor",
+  description: "A simple server monitor tool.",
   icons: {
     icon: [{ url: "/assets/Mercedes-Benz.png", type: "image/png" }],
     shortcut: ["/assets/Mercedes-Benz.png"],

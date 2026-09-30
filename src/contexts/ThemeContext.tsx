@@ -46,6 +46,7 @@ export interface ManagedThemeSettings extends Partial<ThemeConfig> {
   nodeViewMode?: NodeViewMode;
   appearance?: Appearance;
   language?: string;
+  offlineServerPosition?: "First" | "Keep" | "Last";
 }
 
 interface ThemeContextType {
@@ -101,12 +102,12 @@ export const DEFAULT_STATUS_CARDS_VISIBILITY: StatusCardsVisibility = {
 };
 
 export const DEFAULT_GUEST_DISPLAY_SETTINGS: GuestDisplaySettings = {
-  showPrice: false,
-  showExpiredAt: false,
+  showPrice: true,
+  showExpiredAt: true,
 };
 
 export const DEFAULT_NODE_VIEW_MODE: NodeViewMode = "large";
-export const DEFAULT_APPEARANCE: Appearance = "light";
+export const DEFAULT_APPEARANCE: Appearance = "dark";
 
 type AdminState = "loading" | "yes" | "no";
 
@@ -185,6 +186,13 @@ function parseThemeSettings(raw: unknown): ManagedThemeSettings {
 
   const nodeViewMode = pickEnum(source.nodeViewMode, NODE_VIEW_MODES);
   if (nodeViewMode) result.nodeViewMode = nodeViewMode;
+
+  const offlineServerPosition = pickEnum(source.offlineServerPosition, [
+    "First",
+    "Keep",
+    "Last",
+  ] as const);
+  if (offlineServerPosition) result.offlineServerPosition = offlineServerPosition;
 
   const appearance = pickEnum(source.appearance, APPEARANCES);
   if (appearance) result.appearance = appearance;

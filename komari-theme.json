@@ -1,499 +1,31 @@
 {
-    "name": "Komari-Mercedes-AMG",
+    "name": {
+        "zh-CN": "Komari Mercedes-AMG",
+        "en": "Komari Mercedes-AMG"
+    },
     "short": "amg-race-control",
-    "description": "Mercedes-AMG PETRONAS F1 Race Control theme for Komari Monitor",
-    "version": "1.0.0",
+    "description": {
+        "zh-CN": "Mercedes-AMG PETRONAS F1 Race Control 风格的 Komari 监控主题",
+        "en": "Mercedes-AMG PETRONAS F1 Race Control theme for Komari Monitor"
+    },
+    "version": "1.0.1",
     "author": "Jett Hayes",
     "url": "https://github.com/JettHayes/Komari-Mercedes-AMG",
-    "preview": "preview.png",
+    "preview": "dist/assets/theme-preview.png",
     "configuration": {
-        "name": "Theme Settings",
+        "type": "managed",
         "icon": "Palette",
-        "description": "AMG Race Control theme defaults",
-        "managedFields": [
-            {
-                "key": "showRamDiskTotal",
-                "type": "bool",
-                "label": "Show total RAM and disk space",
-                "default": true
-            },
-            {
-                "key": "nodeViewMode",
-                "type": "option",
-                "label": "Default node view",
-                "options": [
-                    "large",
-                    "grid",
-                    "table",
-                    "auto"
-                ],
-                "default": "large"
-            },
-            {
-                "key": "appearance",
-                "type": "option",
-                "label": "Default appearance",
-                "options": [
-                    "light",
-                    "dark"
-                ],
-                "default": "light"
-            },
-            {
-                "key": "language",
-                "type": "option",
-                "label": "Default language",
-                "options": [
-                    "auto",
-                    "en",
-                    "zh-CN",
-                    "zh-TW"
-                ],
-                "default": "zh-CN"
-            },
-            {
-                "key": "statusCardsVisibility.clock",
-                "type": "bool",
-                "label": "Show system time",
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.fleetKpi",
-                "type": "bool",
-                "label": "Show fleet KPI",
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.alerts",
-                "type": "bool",
-                "label": "Show alerts",
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.speedTrend",
-                "type": "bool",
-                "label": "Show network pace",
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.map",
-                "type": "bool",
-                "label": "Show map view",
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.region",
-                "type": "bool",
-                "label": "Show region overview",
-                "default": true
-            },
-            {
-                "key": "guestDisplay.showPrice",
-                "type": "bool",
-                "label": "Show prices to guests",
-                "default": false
-            },
-            {
-                "key": "guestDisplay.showExpiredAt",
-                "type": "bool",
-                "label": "Show expiration to guests",
-                "default": false
-            }
-        ],
-        "fields": [
-            {
-                "type": "title",
-                "name": "Theme Settings"
-            },
-            {
-                "key": "showRamDiskTotal",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示总内存和磁盘",
-                    "zh-TW": "顯示總記憶體和磁碟",
-                    "en-US": "Show Total RAM and Disk"
-                },
-                "default": true
-            },
-            {
-                "key": "nodeViewMode",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认节点视图",
-                    "en-US": "Default Node View"
-                },
-                "default": "large",
-                "options": "large,grid,table,auto"
-            },
-            {
-                "key": "appearance",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认外观",
-                    "en-US": "Default Appearance"
-                },
-                "default": "light",
-                "options": "light,dark"
-            },
-            {
-                "key": "language",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认语言",
-                    "en-US": "Default Language"
-                },
-                "default": "zh-CN",
-                "options": "auto,en,zh-CN,zh-TW"
-            },
-            {
-                "type": "title",
-                "name": "Overview Modules"
-            },
-            {
-                "key": "statusCardsVisibility.clock",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示系统时间",
-                    "en-US": "Show System Time"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.fleetKpi",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示集群 KPI",
-                    "en-US": "Show Fleet KPI"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.alerts",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示告警面板",
-                    "en-US": "Show Alerts"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.speedTrend",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示网速趋势",
-                    "en-US": "Show Network Pace"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.map",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地图",
-                    "en-US": "Show Map View"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.region",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地区分布",
-                    "en-US": "Show Region Overview"
-                },
-                "default": true
-            },
-            {
-                "type": "title",
-                "name": {
-                    "zh-CN": "游客显示",
-                    "zh-TW": "訪客顯示",
-                    "en-US": "Guest Display"
-                }
-            },
-            {
-                "key": "guestDisplay.showPrice",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示价格",
-                    "en-US": "Show Prices to Guests"
-                },
-                "default": false
-            },
-            {
-                "key": "guestDisplay.showExpiredAt",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示到期时间",
-                    "en-US": "Show Expiration to Guests"
-                },
-                "default": false
-            }
-        ],
-        "options": [
-            {
-                "type": "title",
-                "name": "Theme Settings"
-            },
-            {
-                "key": "showRamDiskTotal",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示总内存和磁盘",
-                    "zh-TW": "顯示總記憶體和磁碟",
-                    "en-US": "Show Total RAM and Disk"
-                },
-                "default": true
-            },
-            {
-                "key": "nodeViewMode",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认节点视图",
-                    "en-US": "Default Node View"
-                },
-                "default": "large",
-                "options": "large,grid,table,auto"
-            },
-            {
-                "key": "appearance",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认外观",
-                    "en-US": "Default Appearance"
-                },
-                "default": "light",
-                "options": "light,dark"
-            },
-            {
-                "key": "language",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认语言",
-                    "en-US": "Default Language"
-                },
-                "default": "zh-CN",
-                "options": "auto,en,zh-CN,zh-TW"
-            },
-            {
-                "type": "title",
-                "name": "Overview Modules"
-            },
-            {
-                "key": "statusCardsVisibility.clock",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示系统时间",
-                    "en-US": "Show System Time"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.fleetKpi",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示集群 KPI",
-                    "en-US": "Show Fleet KPI"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.alerts",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示告警面板",
-                    "en-US": "Show Alerts"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.speedTrend",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示网速趋势",
-                    "en-US": "Show Network Pace"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.map",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地图",
-                    "en-US": "Show Map View"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.region",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地区分布",
-                    "en-US": "Show Region Overview"
-                },
-                "default": true
-            },
-            {
-                "type": "title",
-                "name": {
-                    "zh-CN": "游客显示",
-                    "zh-TW": "訪客顯示",
-                    "en-US": "Guest Display"
-                }
-            },
-            {
-                "key": "guestDisplay.showPrice",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示价格",
-                    "en-US": "Show Prices to Guests"
-                },
-                "default": false
-            },
-            {
-                "key": "guestDisplay.showExpiredAt",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示到期时间",
-                    "en-US": "Show Expiration to Guests"
-                },
-                "default": false
-            }
-        ],
-        "items": [
-            {
-                "type": "title",
-                "name": "Theme Settings"
-            },
-            {
-                "key": "showRamDiskTotal",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示总内存和磁盘",
-                    "zh-TW": "顯示總記憶體和磁碟",
-                    "en-US": "Show Total RAM and Disk"
-                },
-                "default": true
-            },
-            {
-                "key": "nodeViewMode",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认节点视图",
-                    "en-US": "Default Node View"
-                },
-                "default": "large",
-                "options": "large,grid,table,auto"
-            },
-            {
-                "key": "appearance",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认外观",
-                    "en-US": "Default Appearance"
-                },
-                "default": "light",
-                "options": "light,dark"
-            },
-            {
-                "key": "language",
-                "type": "select",
-                "name": {
-                    "zh-CN": "默认语言",
-                    "en-US": "Default Language"
-                },
-                "default": "zh-CN",
-                "options": "auto,en,zh-CN,zh-TW"
-            },
-            {
-                "type": "title",
-                "name": "Overview Modules"
-            },
-            {
-                "key": "statusCardsVisibility.clock",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示系统时间",
-                    "en-US": "Show System Time"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.fleetKpi",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示集群 KPI",
-                    "en-US": "Show Fleet KPI"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.alerts",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示告警面板",
-                    "en-US": "Show Alerts"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.speedTrend",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示网速趋势",
-                    "en-US": "Show Network Pace"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.map",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地图",
-                    "en-US": "Show Map View"
-                },
-                "default": true
-            },
-            {
-                "key": "statusCardsVisibility.region",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "显示地区分布",
-                    "en-US": "Show Region Overview"
-                },
-                "default": true
-            },
-            {
-                "type": "title",
-                "name": {
-                    "zh-CN": "游客显示",
-                    "zh-TW": "訪客顯示",
-                    "en-US": "Guest Display"
-                }
-            },
-            {
-                "key": "guestDisplay.showPrice",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示价格",
-                    "en-US": "Show Prices to Guests"
-                },
-                "default": false
-            },
-            {
-                "key": "guestDisplay.showExpiredAt",
-                "type": "switch",
-                "name": {
-                    "zh-CN": "向游客显示到期时间",
-                    "en-US": "Show Expiration to Guests"
-                },
-                "default": false
-            }
-        ],
+        "name": {
+            "zh-CN": "主题设置",
+            "en": "Theme Settings"
+        },
         "data": [
             {
                 "type": "title",
-                "name": "Theme Settings"
+                "name": {
+                    "zh-CN": "基础设置",
+                    "en": "General"
+                }
             },
             {
                 "key": "showRamDiskTotal",
@@ -501,7 +33,7 @@
                 "name": {
                     "zh-CN": "显示总内存和磁盘",
                     "zh-TW": "顯示總記憶體和磁碟",
-                    "en-US": "Show Total RAM and Disk"
+                    "en": "Show Total RAM and Disk"
                 },
                 "default": true
             },
@@ -510,41 +42,58 @@
                 "type": "select",
                 "name": {
                     "zh-CN": "默认节点视图",
-                    "en-US": "Default Node View"
+                    "en": "Default Node View"
                 },
-                "default": "large",
-                "options": "large,grid,table,auto"
+                "options": "large,grid,table,auto",
+                "default": "large"
+            },
+            {
+                "key": "offlineServerPosition",
+                "type": "select",
+                "name": {
+                    "zh-CN": "离线节点位置",
+                    "en": "Offline Server Position"
+                },
+                "options": "First,Keep,Last",
+                "default": "Last",
+                "help": {
+                    "zh-CN": "First：离线靠前；Keep：严格按后台权重；Last：离线靠后（默认，与官方主题一致）",
+                    "en": "First: offline first; Keep: weight only; Last: offline last (default, matches official theme)"
+                }
             },
             {
                 "key": "appearance",
                 "type": "select",
                 "name": {
                     "zh-CN": "默认外观",
-                    "en-US": "Default Appearance"
+                    "en": "Default Appearance"
                 },
-                "default": "light",
-                "options": "light,dark"
+                "options": "light,dark",
+                "default": "dark"
             },
             {
                 "key": "language",
                 "type": "select",
                 "name": {
                     "zh-CN": "默认语言",
-                    "en-US": "Default Language"
+                    "en": "Default Language"
                 },
-                "default": "zh-CN",
-                "options": "auto,en,zh-CN,zh-TW"
+                "options": "auto,en,zh-CN,zh-TW",
+                "default": "zh-CN"
             },
             {
                 "type": "title",
-                "name": "Overview Modules"
+                "name": {
+                    "zh-CN": "概览模块",
+                    "en": "Overview Modules"
+                }
             },
             {
                 "key": "statusCardsVisibility.clock",
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示系统时间",
-                    "en-US": "Show System Time"
+                    "en": "Show System Time"
                 },
                 "default": true
             },
@@ -553,7 +102,7 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示集群 KPI",
-                    "en-US": "Show Fleet KPI"
+                    "en": "Show Fleet KPI"
                 },
                 "default": true
             },
@@ -562,7 +111,7 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示告警面板",
-                    "en-US": "Show Alerts"
+                    "en": "Show Alerts"
                 },
                 "default": true
             },
@@ -571,7 +120,7 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示网速趋势",
-                    "en-US": "Show Network Pace"
+                    "en": "Show Network Pace"
                 },
                 "default": true
             },
@@ -580,7 +129,7 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示地图",
-                    "en-US": "Show Map View"
+                    "en": "Show Map View"
                 },
                 "default": true
             },
@@ -589,7 +138,7 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "显示地区分布",
-                    "en-US": "Show Region Overview"
+                    "en": "Show Region Overview"
                 },
                 "default": true
             },
@@ -598,7 +147,7 @@
                 "name": {
                     "zh-CN": "游客显示",
                     "zh-TW": "訪客顯示",
-                    "en-US": "Guest Display"
+                    "en": "Guest Display"
                 }
             },
             {
@@ -606,18 +155,18 @@
                 "type": "switch",
                 "name": {
                     "zh-CN": "向游客显示价格",
-                    "en-US": "Show Prices to Guests"
+                    "en": "Show Prices to Guests"
                 },
-                "default": false
+                "default": true
             },
             {
                 "key": "guestDisplay.showExpiredAt",
                 "type": "switch",
                 "name": {
                     "zh-CN": "向游客显示到期时间",
-                    "en-US": "Show Expiration to Guests"
+                    "en": "Show Expiration to Guests"
                 },
-                "default": false
+                "default": true
             }
         ]
     }
