@@ -42,7 +42,11 @@ export const DetailsGrid = ({ uuid }: DetailsGridProps) => {
       <StatRow
         title={t("raceControl.cpu")}
         value={node?.cpu_name || unknown}
-        subValue={t("raceControl.cores", { count: node?.cpu_cores ?? "—" })}
+        subValue={
+          typeof node?.cpu_cores === "number"
+            ? t("raceControl.cores", { count: node.cpu_cores })
+            : unknown
+        }
       />
       <StatRow title={t("nodeCard.arch")} value={node?.arch || unknown} />
       <StatRow title={t("nodeCard.virtualization")} value={node?.virtualization || unknown} />
