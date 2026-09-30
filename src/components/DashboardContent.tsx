@@ -43,9 +43,9 @@ export default function DashboardContent() {
   return (
     <div className="container mx-auto px-4 space-y-4">
       <div className="flex items-end justify-between gap-3 px-1">
-        <div>
-          <div className="rc-label mb-1">Mercedes-AMG PETRONAS</div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight uppercase">
+        <div className="flex flex-col items-start gap-2">
+          <div className="rc-label rc-label--brand">Mercedes-AMG PETRONAS</div>
+          <h1 className="rc-page-title text-2xl sm:text-3xl font-bold tracking-tight uppercase">
             Race Control
           </h1>
         </div>
