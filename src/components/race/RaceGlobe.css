@@ -1,0 +1,297 @@
+.race-globe {
+  position: relative;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1rem 1.1rem;
+}
+
+.race-globe--empty {
+  min-height: 280px;
+  place-items: center;
+}
+
+.race-globe__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding-inline: 0.15rem;
+}
+
+.race-globe__title {
+  margin-top: 0.2rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.race-globe__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.race-globe__stat {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 4.5rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--amg-glass-border);
+  border-radius: 0.75rem;
+  background: var(--amg-glass-lite);
+}
+
+.race-globe__stat-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.race-globe__stat-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--foreground);
+  line-height: 1.1;
+}
+
+.race-globe__stat--ok .race-globe__stat-value {
+  color: var(--amg-ok);
+}
+
+.race-globe__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.35rem;
+}
+
+.race-globe__viewport {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 460px;
+}
+
+.race-globe__halo {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(92%, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle at 50% 50%, var(--amg-globe-atmosphere), transparent 68%),
+    radial-gradient(circle at 50% 62%, rgb(8 16 18 / 0.22), transparent 66%);
+  pointer-events: none;
+}
+
+.race-globe__canvas {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 100%;
+  border-radius: 50%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.race-globe__canvas:active {
+  cursor: grabbing;
+}
+
+.race-globe__dock {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  width: min(100%, 22rem);
+  padding-bottom: 0.15rem;
+  pointer-events: none;
+}
+
+.race-globe__orbit {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(100%, 17.5rem);
+  padding: 0.55rem 0.65rem 0.55rem 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--amg-teal) 28%, var(--amg-glass-border));
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--amg-glass-solid) 92%, white),
+      color-mix(in oklab, var(--amg-glass-solid) 78%, transparent)
+    );
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.35) inset,
+    0 12px 28px -14px rgb(8 18 20 / 0.45);
+  color: inherit;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.race-globe__orbit:hover {
+  border-color: color-mix(in oklab, var(--amg-teal) 55%, transparent);
+  transform: translateY(-1px);
+}
+
+.race-globe__orbit:focus-visible {
+  outline: 2px solid var(--amg-teal);
+  outline-offset: 3px;
+}
+
+.race-globe__orbit[data-live="true"] {
+  border-color: color-mix(in oklab, var(--amg-teal) 48%, transparent);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.35) inset,
+    0 12px 28px -14px rgb(8 18 20 / 0.45),
+    0 0 0 1px color-mix(in oklab, var(--amg-teal) 16%, transparent),
+    0 0 22px color-mix(in oklab, var(--amg-teal) 18%, transparent);
+}
+
+.race-globe__orbit-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  color: var(--amg-petronas);
+  background: color-mix(in oklab, var(--amg-teal) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--amg-teal) 22%, transparent);
+}
+
+.race-globe__orbit[data-live="true"] .race-globe__orbit-icon {
+  color: var(--amg-teal);
+  animation: race-globe-orbit-spin 8s linear infinite;
+}
+
+.race-globe__orbit-copy {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.race-globe__orbit-kicker {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.race-globe__orbit-state {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--foreground);
+}
+
+.race-globe__orbit[data-live="true"] .race-globe__orbit-state {
+  color: var(--amg-teal);
+}
+
+.race-globe__orbit-track {
+  position: relative;
+  width: 2.55rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--amg-ink) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--amg-ink) 10%, var(--amg-glass-border));
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.dark .race-globe__orbit-track {
+  background: rgb(255 255 255 / 0.08);
+}
+
+.race-globe__orbit[data-live="true"] .race-globe__orbit-track {
+  background: color-mix(in oklab, var(--amg-teal) 28%, transparent);
+  border-color: color-mix(in oklab, var(--amg-teal) 42%, transparent);
+}
+
+.race-globe__orbit-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgb(8 16 18 / 0.28);
+  transform: translateY(-50%);
+  transition: left 200ms cubic-bezier(0.22, 1, 0.36, 1), background 180ms ease;
+}
+
+.race-globe__orbit[data-live="true"] .race-globe__orbit-thumb {
+  left: calc(100% - 1.2rem);
+  background: var(--amg-teal);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--amg-teal) 45%, transparent);
+}
+
+.race-globe__tooltip {
+  pointer-events: none;
+  min-width: 160px;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--amg-glass-border);
+  background: var(--amg-glass-lite);
+  box-shadow: var(--amg-panel-shadow);
+}
+
+.race-globe__hint {
+  margin: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  opacity: 0.7;
+  text-align: center;
+}
+
+@keyframes race-globe-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .race-globe {
+    padding: 0.75rem;
+  }
+
+  .race-globe__stage {
+    gap: 1.85rem;
+  }
+
+  .race-globe__orbit {
+    width: min(100%, 16.5rem);
+    gap: 0.55rem;
+    padding-inline: 0.55rem 0.55rem;
+  }
+
+  .race-globe__hint {
+    max-width: 18rem;
+    line-height: 1.35;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .race-globe__orbit[data-live="true"] .race-globe__orbit-icon {
+    animation: none;
+  }
+}

@@ -1,0 +1,1138 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Titillium Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/titillium-web-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Titillium Web";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/titillium-web-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Titillium Web";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/titillium-web-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-700.woff2") format("woff2");
+}
+
+@theme inline {
+  --font-sans: "Titillium Web", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Light — daylight paddock: silver garage + Petronas glass */
+:root {
+  --radius: 0.95rem;
+  --background: #d7e2e6;
+  --foreground: #0b1214;
+  --card: rgb(248 252 252 / 0.58);
+  --card-foreground: #0b1214;
+  --popover: rgb(255 255 255 / 0.94);
+  --popover-foreground: #0b1214;
+  --primary: #008f8a;
+  --primary-foreground: #f4fffe;
+  --secondary: rgb(255 255 255 / 0.55);
+  --secondary-foreground: #132025;
+  --muted: rgb(210 224 228 / 0.72);
+  --muted-foreground: #3f5258;
+  --accent: #1ad9bc;
+  --accent-foreground: #04201c;
+  --destructive: #e11d48;
+  --border: rgb(0 140 132 / 0.18);
+  --input: rgb(255 255 255 / 0.72);
+  --ring: #1ad9bc;
+  --chart-1: #008f8a;
+  --chart-2: #1ad9bc;
+  --chart-3: #8a9599;
+  --chart-4: #d97706;
+  --chart-5: #e11d48;
+  --sidebar: #0a1012;
+  --sidebar-foreground: #e8eef0;
+  --sidebar-primary: #27f4d2;
+  --sidebar-primary-foreground: #04201c;
+  --sidebar-accent: #152024;
+  --sidebar-accent-foreground: #e8eef0;
+  --sidebar-border: rgb(39 244 210 / 0.22);
+  --sidebar-ring: #27f4d2;
+
+  --amg-teal: #1ad9bc;
+  --amg-petronas: #008f8a;
+  --amg-silver: #9aa4a8;
+  --amg-ink: #0b1214;
+  --amg-ok: #16a34a;
+  --amg-warn: #d97706;
+  --amg-crit: #e11d48;
+  --amg-glass: linear-gradient(
+      155deg,
+      rgb(255 255 255 / 0.72) 0%,
+      rgb(245 251 251 / 0.48) 48%,
+      rgb(230 242 242 / 0.42) 100%
+    );
+  --amg-glass-solid: rgb(250 253 253 / 0.55);
+  --amg-glass-lite: linear-gradient(
+      155deg,
+      rgb(255 255 255 / 0.9) 0%,
+      rgb(246 251 251 / 0.8) 55%,
+      rgb(236 245 245 / 0.78) 100%
+    );
+  --amg-glass-border: rgb(0 140 132 / 0.16);
+  --amg-glass-shine: rgb(255 255 255 / 0.7);
+  --amg-panel-shadow:
+    0 1px 0 rgb(255 255 255 / 0.65) inset,
+    0 10px 28px -12px rgb(12 28 32 / 0.28),
+    0 2px 8px rgb(12 28 32 / 0.06);
+  --amg-track: rgb(11 18 20 / 0.08);
+  --amg-map-ocean: #b7cdd4;
+  --amg-map-land: #8fa3aa;
+  --amg-map-active: #008f8a;
+  --amg-map-graticule: rgb(0 140 132 / 0.16);
+  --amg-globe-atmosphere: rgb(26 217 188 / 0.28);
+  --amg-bg-veil-top: rgb(215 226 230 / 0.28);
+  --amg-bg-veil-mid: rgb(215 226 230 / 0.42);
+  --amg-bg-veil-bot: rgb(215 226 230 / 0.62);
+}
+
+/* Dark — primary AMG race-control look */
+.dark {
+  --background: #050708;
+  --foreground: #eef4f5;
+  --card: rgb(12 18 20 / 0.62);
+  --card-foreground: #eef4f5;
+  --popover: rgb(10 16 18 / 0.94);
+  --popover-foreground: #eef4f5;
+  --primary: #27f4d2;
+  --primary-foreground: #04201c;
+  --secondary: #152024;
+  --secondary-foreground: #eef4f5;
+  --muted: #121a1d;
+  --muted-foreground: #8aa0a6;
+  --accent: #27f4d2;
+  --accent-foreground: #04201c;
+  --destructive: #fb7185;
+  --border: rgb(39 244 210 / 0.18);
+  --input: #121a1d;
+  --ring: #27f4d2;
+  --chart-1: #27f4d2;
+  --chart-2: #00a19b;
+  --chart-3: #c8ccce;
+  --chart-4: #f59e0b;
+  --chart-5: #fb7185;
+  --sidebar: #050708;
+  --sidebar-foreground: #eef4f5;
+  --sidebar-primary: #27f4d2;
+  --sidebar-primary-foreground: #04201c;
+  --sidebar-accent: #121a1d;
+  --sidebar-accent-foreground: #eef4f5;
+  --sidebar-border: rgb(39 244 210 / 0.16);
+  --sidebar-ring: #27f4d2;
+
+  --amg-teal: #27f4d2;
+  --amg-petronas: #00a19b;
+  --amg-silver: #c8ccce;
+  --amg-ink: #0a1012;
+  --amg-ok: #22c55e;
+  --amg-warn: #f59e0b;
+  --amg-crit: #fb7185;
+  --amg-glass: linear-gradient(
+      160deg,
+      rgb(18 28 32 / 0.72) 0%,
+      rgb(10 16 18 / 0.55) 55%,
+      rgb(8 14 16 / 0.62) 100%
+    );
+  --amg-glass-solid: rgb(12 18 20 / 0.58);
+  --amg-glass-lite: linear-gradient(
+      160deg,
+      rgb(20 30 34 / 0.92) 0%,
+      rgb(12 19 22 / 0.86) 55%,
+      rgb(9 15 17 / 0.88) 100%
+    );
+  --amg-glass-border: rgb(39 244 210 / 0.18);
+  --amg-glass-shine: rgb(39 244 210 / 0.1);
+  --amg-panel-shadow:
+    0 1px 0 rgb(39 244 210 / 0.08) inset,
+    0 16px 40px -16px rgb(0 0 0 / 0.7),
+    0 2px 10px rgb(0 0 0 / 0.35);
+  --amg-track: rgb(255 255 255 / 0.08);
+  --amg-map-ocean: #061014;
+  --amg-map-land: #1a2c31;
+  --amg-map-active: #27f4d2;
+  --amg-map-graticule: rgb(39 244 210 / 0.12);
+  --amg-globe-atmosphere: rgb(39 244 210 / 0.22);
+  --amg-bg-veil-top: rgb(5 7 8 / 0.42);
+  --amg-bg-veil-mid: rgb(5 7 8 / 0.62);
+  --amg-bg-veil-bot: rgb(5 7 8 / 0.82);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Titillium Web", "Segoe UI", sans-serif;
+    min-height: 100dvh;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 8%, rgb(39 244 210 / 0.12), transparent 55%),
+      linear-gradient(
+        180deg,
+        var(--amg-bg-veil-top) 0%,
+        var(--amg-bg-veil-mid) 48%,
+        var(--amg-bg-veil-bot) 100%
+      ),
+      url("/assets/Mercedes-AMG.jpg") center / cover no-repeat;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgb(39 244 210 / 0.07), transparent 42%),
+      linear-gradient(rgb(39 244 210 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(39 244 210 / 0.035) 1px, transparent 1px);
+    background-size: auto, 56px 56px, 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 18%, transparent 78%);
+    pointer-events: none;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  ::selection {
+    background: rgb(39 244 210 / 0.35);
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--amg-teal);
+    outline-offset: 2px;
+  }
+}
+
+/* Glass race panel — soft pavilion glass, not milky slabs */
+.rc-panel {
+  position: relative;
+  background: var(--amg-glass);
+  border: 1px solid var(--amg-glass-border);
+  border-radius: calc(var(--radius) + 0.15rem);
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  box-shadow: var(--amg-panel-shadow);
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rc-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 4%,
+    var(--amg-glass-shine) 28%,
+    var(--amg-teal) 50%,
+    var(--amg-glass-shine) 72%,
+    transparent 96%
+  );
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.rc-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 80% at 0% 0%, var(--amg-glass-shine), transparent 42%);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.rc-panel:hover {
+  border-color: color-mix(in oklab, var(--amg-teal) 45%, transparent);
+  box-shadow:
+    var(--amg-panel-shadow),
+    0 0 0 1px color-mix(in oklab, var(--amg-teal) 18%, transparent);
+}
+
+.rc-panel--flat {
+  border-radius: var(--radius);
+}
+
+.rc-panel--flat::after {
+  opacity: 0.16;
+}
+
+/* Repeated cards: no live backdrop blur, near-opaque glass instead */
+.rc-panel--lite {
+  background: var(--amg-glass-lite);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  contain: layout paint;
+}
+
+.rc-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.rc-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.rc-tone-ok { color: var(--amg-ok); }
+.rc-tone-warn { color: var(--amg-warn); }
+.rc-tone-crit { color: var(--amg-crit); }
+.rc-tone-teal { color: var(--amg-teal); }
+
+.rc-meter {
+  height: 4px;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--amg-track);
+  overflow: hidden;
+}
+
+.rc-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--amg-petronas), var(--amg-teal));
+  transition: width 280ms ease;
+}
+
+.rc-meter[data-tone="warn"] > span {
+  background: linear-gradient(90deg, #d97706, var(--amg-warn));
+}
+
+.rc-meter[data-tone="crit"] > span {
+  background: linear-gradient(90deg, #be123c, var(--amg-crit));
+}
+
+.rc-live-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--amg-ok);
+}
+
+.rc-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--amg-ok);
+  opacity: 0.55;
+  animation: rc-pulse 2s ease-out infinite;
+}
+
+.rc-live-dot[data-offline="true"] {
+  background: var(--amg-crit);
+}
+
+.rc-live-dot[data-offline="true"]::after {
+  display: none;
+}
+
+@keyframes rc-pulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  70% { transform: scale(3); opacity: 0; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Top nav */
+.rc-nav {
+  border-bottom: 1px solid var(--amg-glass-border);
+  background: color-mix(in oklab, var(--amg-glass-solid) 88%, transparent);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+}
+
+:root:not(.dark) .rc-nav {
+  background: rgb(255 255 255 / 0.55);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset;
+}
+
+.rc-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.rc-brand img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgb(39 244 210 / 0.35));
+}
+
+.rc-brand-title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rc-brand-title--compact { display: none; }
+
+@media (max-width: 720px) {
+  .rc-brand-title--full { display: none; }
+  .rc-brand-title--compact { display: inline; }
+}
+
+.rc-demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid rgb(217 119 6 / 0.35);
+  border-radius: 999px;
+  color: var(--amg-warn);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgb(245 158 11 / 0.12);
+}
+
+/* Timing tower row */
+.rc-tower-row {
+  display: grid;
+  grid-template-columns: 36px 14px minmax(140px, 1.4fr) repeat(3, minmax(72px, 0.7fr)) minmax(110px, 1fr) minmax(80px, 0.7fr);
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--amg-teal) 12%, transparent);
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.rc-tower-row:hover {
+  background: color-mix(in oklab, var(--amg-teal) 8%, transparent);
+}
+
+.rc-tower-row[data-offline="true"] {
+  opacity: 0.72;
+}
+
+@media (max-width: 1024px) {
+  .rc-tower-row {
+    grid-template-columns: 28px 12px minmax(120px, 1.6fr) repeat(3, minmax(56px, 0.8fr));
+  }
+  .rc-tower-row > :nth-child(n + 7) {
+    display: none;
+  }
+}
+
+/* Telemetry card grid */
+.rc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
+/* ---- Dossier (large card) view ---- */
+.rc-dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 1rem;
+}
+
+.rc-dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.1rem 1.15rem 0.95rem;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.rc-dossier:hover {
+  border-color: color-mix(in oklab, var(--amg-teal) 50%, transparent);
+  transform: translateY(-2px);
+}
+
+.rc-dossier[data-offline="true"] {
+  opacity: 0.72;
+}
+
+.rc-dossier__head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.rc-dossier__pos {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.2px color-mix(in oklab, var(--amg-teal) 75%, transparent);
+}
+
+.rc-dossier__name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.rc-dossier__sub {
+  margin-top: 0.15rem;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.rc-dossier__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--amg-ok);
+  background: color-mix(in oklab, var(--amg-ok) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--amg-ok) 30%, transparent);
+}
+
+.rc-dossier__status[data-offline="true"] {
+  color: var(--amg-crit);
+  background: color-mix(in oklab, var(--amg-crit) 10%, transparent);
+  border-color: color-mix(in oklab, var(--amg-crit) 28%, transparent);
+}
+
+.rc-dossier__gauges {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.85rem 0.25rem 0.75rem;
+  border-block: 1px solid var(--amg-glass-border);
+}
+
+.rc-ring {
+  --rc-ring-color: var(--amg-teal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.rc-ring[data-tone="warn"] { --rc-ring-color: var(--amg-warn); }
+.rc-ring[data-tone="crit"] { --rc-ring-color: var(--amg-crit); }
+
+.rc-ring__dial {
+  position: relative;
+  width: 76px;
+  height: 76px;
+}
+
+.rc-ring__dial svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.rc-ring__track,
+.rc-ring__value {
+  fill: none;
+  stroke-width: 6;
+}
+
+.rc-ring__track {
+  stroke: color-mix(in oklab, var(--amg-teal) 12%, transparent);
+}
+
+.rc-ring__value {
+  stroke: var(--rc-ring-color);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.rc-ring__pct {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.rc-ring__pct small {
+  margin-left: 1px;
+  font-size: 0.6rem;
+  color: var(--muted-foreground);
+}
+
+.rc-ring__label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.rc-ring__detail {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.64rem;
+  color: var(--muted-foreground);
+}
+
+.rc-dossier__telemetry {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem 0.75rem;
+  margin: 0;
+}
+
+.rc-dossier__telemetry > div {
+  min-width: 0;
+  padding-left: 0.55rem;
+  border-left: 2px solid color-mix(in oklab, var(--amg-teal) 35%, transparent);
+}
+
+.rc-dossier__telemetry dt {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.rc-dossier__telemetry dd {
+  margin: 0.1rem 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rc-dossier__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--amg-glass-border);
+  font-size: 0.66rem;
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 480px) {
+  .rc-dossier__telemetry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rc-ring__dial {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Lights-out loading */
+.rc-lights {
+  display: flex;
+  gap: 0.65rem;
+  justify-content: center;
+}
+
+.rc-lights span {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #3f1010;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  animation: rc-lights 1.4s ease-in-out infinite;
+}
+
+.rc-lights span:nth-child(2) { animation-delay: 0.15s; }
+.rc-lights span:nth-child(3) { animation-delay: 0.3s; }
+.rc-lights span:nth-child(4) { animation-delay: 0.45s; }
+.rc-lights span:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes rc-lights {
+  0%, 100% { background: #3f1010; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12); }
+  40%, 60% { background: #ef4444; box-shadow: 0 0 12px rgb(239 68 68 / 0.7); }
+}
+
+/* Footer */
+.rc-footer {
+  border-top: 1px solid var(--amg-glass-border);
+  background: rgb(5 7 8 / 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  margin-top: auto;
+}
+
+:root:not(.dark) .rc-footer {
+  background: rgb(255 255 255 / 0.48);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.55) inset;
+}
+
+.rc-footer-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amg-petronas);
+  border: 1px solid var(--amg-glass-border);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--amg-teal) 8%, transparent);
+}
+
+/* Welcome bubble (legacy AMG side panel) */
+.amg-welcome-bubble {
+  position: fixed !important;
+  z-index: 2141;
+  bottom: 18px;
+  left: 18px;
+  width: 360px;
+  max-width: calc(100vw - 36px);
+  overflow: hidden;
+  border: 1px solid rgb(0 229 200 / 0.32);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.14), rgb(0 229 200 / 0.08)),
+    rgb(6 13 14 / 0.92);
+  color: var(--amg-silver);
+  box-shadow: 0 18px 44px rgb(2 9 10 / 0.22);
+  opacity: 0;
+  transform: translateY(22px) scale(0.96);
+  pointer-events: none;
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease;
+  will-change: opacity, transform;
+}
+.amg-welcome-bubble.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.amg-welcome-bubble.show.is-booting {
+  animation: amg-bubble-boot 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.amg-welcome-bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 22px 2px rgb(0 229 200 / 0.16);
+  opacity: 0;
+  pointer-events: none;
+}
+.amg-welcome-bubble.show::after {
+  animation: amg-bubble-glow 4s ease-in-out 1.2s infinite;
+}
+.amg-welcome-bubble.is-leaving,
+.amg-welcome-bubble.is-leaving.show {
+  animation: none !important;
+  opacity: 0;
+  transform: translateY(16px) scale(0.97);
+  pointer-events: none;
+  box-shadow: 0 10px 28px rgb(2 9 10 / 0.12);
+}
+.amg-welcome-bubble.show:hover:not(.is-leaving) {
+  transform: translateY(-2px) scale(1);
+  box-shadow: 0 22px 50px rgb(2 9 10 / 0.3);
+}
+.amg-welcome-bubble::before {
+  display: block;
+  height: 4px;
+  background-image:
+    linear-gradient(
+      100deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.55) 45%,
+      rgb(0 229 200 / 0.95) 50%,
+      rgb(255 255 255 / 0.55) 55%,
+      transparent 70%
+    ),
+    linear-gradient(
+      90deg,
+      var(--amg-petronas) 0 36%,
+      var(--amg-silver) 36% 48%,
+      #111 48% 58%,
+      var(--amg-petronas) 58%
+    );
+  background-position: -130% 0, 0 0;
+  background-size: 220% 100%, 100% 100%;
+  content: "";
+}
+.amg-welcome-bubble.show::before {
+  animation:
+    amg-stripe-sweep 1100ms ease-out 140ms both,
+    amg-stripe-shimmer 6s ease-in-out 1.6s infinite;
+}
+.amg-welcome-header {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 34px;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid rgb(217 225 230 / 0.13);
+}
+.amg-welcome-logo {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid rgb(238 247 247 / 0.62);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 28%,
+    rgb(255 255 255 / 0.96),
+    rgb(209 228 227 / 0.78) 58%,
+    rgb(0 229 200 / 0.2)
+  );
+  animation: amg-logo-breathe 5s ease-in-out 0.8s infinite;
+}
+.amg-welcome-logo img {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+.amg-welcome-logo[data-logo-fallback="true"]::after {
+  color: #071011;
+  font-size: 0.72rem;
+  font-weight: 900;
+  content: "MB";
+}
+.amg-welcome-brand { min-width: 0; }
+.amg-welcome-kicker {
+  margin: 0 0 5px;
+  color: var(--amg-petronas);
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.amg-welcome-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  color: var(--amg-silver);
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1.18;
+}
+.amg-welcome-subtitle {
+  display: block;
+  color: rgb(238 247 247 / 0.72);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.amg-welcome-close {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(0 229 200 / 0.24);
+  border-radius: 8px;
+  background: rgb(0 229 200 / 0.08);
+  color: var(--amg-petronas);
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.amg-welcome-close:hover {
+  border-color: rgb(0 229 200 / 0.6);
+  background: rgb(0 229 200 / 0.16);
+  box-shadow: 0 0 10px 2px rgb(0 229 200 / 0.25);
+  transform: translateY(-1px);
+}
+.amg-welcome-close svg { width: 15px; height: 15px; }
+.amg-welcome-content {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+.amg-welcome-info {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-height: 24px;
+  margin: 0;
+  color: rgb(228 243 242 / 0.82);
+  font-size: 0.84rem;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(6px);
+}
+.amg-welcome-bubble.show .amg-welcome-info {
+  animation: amg-row-rise 420ms ease-out forwards;
+}
+.amg-welcome-bubble.show .amg-welcome-info:nth-child(1) { animation-delay: 260ms; }
+.amg-welcome-bubble.show .amg-welcome-info:nth-child(2) { animation-delay: 330ms; }
+.amg-welcome-bubble.show .amg-welcome-info:nth-child(3) { animation-delay: 400ms; }
+.amg-welcome-bubble.show .amg-welcome-info:nth-child(4) { animation-delay: 470ms; }
+.amg-welcome-bubble.show .amg-welcome-info:nth-child(5) { animation-delay: 540ms; }
+.amg-welcome-info:first-child {
+  color: var(--amg-silver);
+  font-size: 0.91rem;
+  font-weight: 900;
+}
+.amg-welcome-info :is(svg, #amg-os-icon) { color: var(--amg-petronas); }
+.amg-welcome-info .data-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.amg-welcome-info:first-child .data-text {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.amg-collapse-tab {
+  position: fixed !important;
+  z-index: 2142;
+  bottom: 120px;
+  left: -2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px 6px 14px;
+  border: 1px solid rgb(0 229 200 / 0.32);
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  background: rgb(6 13 14 / 0.92);
+  color: var(--amg-petronas);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: translateX(calc(-100% - 4px));
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 160ms ease;
+  white-space: nowrap;
+  will-change: opacity, transform;
+}
+.amg-collapse-tab.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+.amg-collapse-tab:hover { background: rgb(0 229 200 / 0.14); }
+.amg-collapse-tab:disabled,
+.amg-welcome-close:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+.amg-collapse-tab::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amg-petronas);
+  content: "";
+  animation: amg-logo-breathe 3s ease-in-out infinite;
+}
+
+@keyframes amg-bubble-boot {
+  0% { opacity: 0; transform: translateY(26px) scale(0.96); }
+  55% { opacity: 1; transform: translateY(-3px) scale(1.015); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes amg-stripe-sweep {
+  from { background-position: -130% 0, 0 0; }
+  to { background-position: 230% 0, 0 0; }
+}
+@keyframes amg-row-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes amg-bubble-glow {
+  0%, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes amg-stripe-shimmer {
+  0%, to { background-position: -130% 0, 0 0; }
+  50% { background-position: 230% 0, 0 0; }
+}
+@keyframes amg-logo-breathe {
+  0%, to { box-shadow: 0 0 0 0 rgb(0 229 200 / 0); }
+  50% { box-shadow: 0 0 12px 3px rgb(0 229 200 / 0.18); }
+}
+
+@media (max-width: 720px) {
+  .amg-welcome-bubble {
+    right: 10px;
+    bottom: 12px;
+    left: 10px;
+    width: auto;
+    max-width: none;
+  }
+  .amg-welcome-close { width: 44px; height: 44px; }
+  .amg-welcome-header {
+    grid-template-columns: 46px minmax(0, 1fr) 44px;
+    gap: 10px;
+    padding: 11px 11px 9px;
+  }
+  .amg-welcome-logo { width: 46px; height: 46px; }
+  .amg-welcome-logo img { width: 30px; height: 30px; }
+  .amg-welcome-kicker { font-size: 0.62rem; }
+  .amg-welcome-title { font-size: 0.96rem; line-height: 1.2; }
+  .amg-welcome-subtitle { font-size: 0.72rem; }
+  .amg-welcome-content { gap: 6px; padding: 10px 11px 12px; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .amg-welcome-close:hover,
+  .amg-welcome-bubble.show:hover:not(.is-leaving) { transform: none; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgb(39 244 210 / 0.28);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgb(39 244 210 / 0.45); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* shadcn card surfaces use glass */
+[data-slot="card"]:not(.bg-transparent) {
+  background: var(--amg-glass);
+  border-color: var(--amg-glass-border);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  box-shadow: var(--amg-panel-shadow);
+}

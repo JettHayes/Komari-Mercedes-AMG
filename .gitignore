@@ -1,0 +1,98 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Local scratch
+/data
+/temp
+/tmp
+theme-package/
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.pnp.*
+.yarn/install-state.gz
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Testing
+/coverage
+*.lcov
+
+# Next.js / build output
+/.next/
+/out/
+/build
+/dist
+/dist-ssr
+*.tsbuildinfo
+next-env.d.ts
+
+# Theme package artifacts
+*.zip
+!public/**/*.zip
+komari-theme-*.zip
+dist-release.zip
+
+# Misc / secrets
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Logs & caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.eslintcache
+.stylelintcache
+.cache
+.turbo
+.parcel-cache
+
+# Vercel / deploy
+.vercel
+
+# Environment Variables (keep .env.example tracked)
+.env
+.env.*
+!.env.example
+
+# IDEs and Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*~
+
+# Cursor local / agent scratch (keep shared rules if committed intentionally)
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
+# PWA generated
+public/sw.js
+public/workbox-*.js
+public/worker-*.js
+public/sw.js.map
+public/workbox-*.js.map
+public/worker-*.js.map
+
+# Bundle Analysis
+bundle-analysis.html
