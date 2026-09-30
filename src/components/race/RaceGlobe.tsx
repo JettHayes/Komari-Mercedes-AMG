@@ -21,6 +21,7 @@ import type { LiveData } from "@/types/LiveData";
 import { buildMapViewSummary, type MapRegionSummary } from "@/utils/mapRegions";
 import Flag from "@/components/Flag";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { getRegionDisplayName } from "@/utils/regionHelper";
 
 import "./RaceGlobe.css";
 
@@ -30,6 +31,20 @@ const FRAME_MS = 33;
 const INITIAL_ROTATION: [number, number] = [20, -18];
 // ~0.4° ≈ 1.6px at MAX_SIZE, finer vertices are invisible but cost a full projection each frame
 const SIMPLIFY_DEG = 0.4;
+const CALLOUT_WIDTH = 248;
+const CALLOUT_GAP = 44;
+const CALLOUT_EDGE = 76;
+const CALLOUT_NODE_LIMIT = 4;
+
+type Callout = {
+  id: number;
+  key: string;
+  x: number;
+  y: number;
+  size: number;
+  side: "left" | "right";
+  docked: boolean;
+};
 
 type GeoFeature = GeoPermissibleObjects & { properties?: { name?: string }; id?: string };
 type Ring = number[][];
@@ -187,10 +202,12 @@ export default function RaceGlobe({
   nodes: NodeBasicInfo[];
   liveData: LiveData;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const summary = useMemo(() => buildMapViewSummary(nodes, liveData), [nodes, liveData]);
+  const onlineSet = useMemo(() => new Set(liveData?.online ?? []), [liveData]);
   const [autoRotate, setAutoRotate] = useLocalStorage("raceGlobe.autoOrbit", true);
-  const [hover, setHover] = useState<MapRegionSummary | null>(null);
+  const [callout, setCallout] = useState<Callout | null>(null);
+  const [calloutOpen, setCalloutOpen] = useState(false);
   const [world, setWorld] = useState<WorldData | null>(null);
 
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -439,15 +456,43 @@ export default function RaceGlobe({
     return activeRef.current.find((item) => geoContains(item.feature, lonLat))?.region ?? null;
   }, []);
 
-  const updateHover = useCallback((region: MapRegionSummary | null) => {
+  const updateHover = useCallback((region: MapRegionSummary | null, clientX = 0, clientY = 0) => {
     const key = region?.key ?? null;
     if (hoverKeyRef.current === key) return;
     hoverKeyRef.current = key;
     dirtyRef.current = true;
-    setHover(region);
+    if (!region) {
+      setCalloutOpen(false);
+      return;
+    }
+
+    const size = sizeRef.current;
+    const center = size / 2;
+    const rect = canvasRef.current?.getBoundingClientRect();
+    let x = rect ? clientX - rect.left : center;
+    let y = rect ? clientY - rect.top : center;
+    const item = activeRef.current.find((entry) => entry.region.key === key);
+    const [lambda, phi] = rotationRef.current;
+    if (item && geoDistance(item.centroid, [-lambda, -phi]) < Math.PI / 2 - 0.04) {
+      const point = projectionRef.current(item.centroid);
+      if (point) [x, y] = point;
+    }
+
+    const gutter = ((stageRef.current?.clientWidth ?? size) - size) / 2;
+    setCallout((prev) => ({
+      id: (prev?.id ?? 0) + 1,
+      key: region.key,
+      x,
+      y,
+      size,
+      side: x < center ? "left" : "right",
+      docked: gutter < CALLOUT_WIDTH + CALLOUT_GAP + 12,
+    }));
+    setCalloutOpen(true);
   }, []);
 
   const onPointerDown = useCallback((event: ReactPointerEvent<HTMLCanvasElement>) => {
+    updateHover(null);
     event.currentTarget.setPointerCapture(event.pointerId);
     dragRef.current = {
       active: true,
@@ -455,7 +500,7 @@ export default function RaceGlobe({
       y: event.clientY,
       rotation: rotationRef.current,
     };
-  }, []);
+  }, [updateHover]);
 
   const onPointerMove = useCallback(
     (event: ReactPointerEvent<HTMLCanvasElement>) => {
@@ -471,7 +516,9 @@ export default function RaceGlobe({
         dirtyRef.current = true;
         return;
       }
-      if (event.pointerType === "mouse") updateHover(pickRegion(event.clientX, event.clientY));
+      if (event.pointerType === "mouse") {
+        updateHover(pickRegion(event.clientX, event.clientY), event.clientX, event.clientY);
+      }
     },
     [pickRegion, updateHover],
   );
@@ -494,6 +541,71 @@ export default function RaceGlobe({
         </p>
       </div>
     );
+  }
+
+  const calloutRegion = callout
+    ? summary.regions.find((region) => region.key === callout.key) ?? null
+    : null;
+  const regionLang = i18n.language?.toLowerCase().startsWith("zh") ? "zh" : "en";
+
+  const renderCalloutCard = (region: MapRegionSummary) => {
+    const localName = getRegionDisplayName(region.emoji, regionLang);
+    const name = localName && localName !== region.emoji ? localName : region.label;
+    const ratio = region.total ? (region.online / region.total) * 100 : 0;
+    const extra = region.nodes.length - CALLOUT_NODE_LIMIT;
+    return (
+      <>
+        <div className="race-globe__callout-head">
+          <span className="race-globe__callout-code rc-mono">{region.flagCode}</span>
+          <span className="race-globe__callout-status" data-status={region.status}>
+            {t(`mapView.status.${region.status}`)}
+          </span>
+        </div>
+        <div className="race-globe__callout-title">
+          <Flag flag={region.flagCode} />
+          <span>{name}</span>
+        </div>
+        {name !== region.label ? (
+          <div className="race-globe__callout-sub">{region.label}</div>
+        ) : null}
+        <div className="race-globe__callout-meter">
+          <span style={{ width: `${ratio}%` }} />
+        </div>
+        <div className="race-globe__callout-stats rc-mono">
+          <span className="race-globe__callout-online">
+            {t("mapView.online", { count: region.online })}
+          </span>
+          <span>{t("mapView.offline", { count: region.offline })}</span>
+        </div>
+        <ul className="race-globe__callout-nodes">
+          {region.nodes.slice(0, CALLOUT_NODE_LIMIT).map((node) => (
+            <li key={node.uuid} data-online={onlineSet.has(node.uuid) ? "true" : "false"}>
+              <span className="race-globe__callout-dot" aria-hidden="true" />
+              <span className="race-globe__callout-node">{node.name}</span>
+            </li>
+          ))}
+          {extra > 0 ? <li className="race-globe__callout-more rc-mono">+{extra}</li> : null}
+        </ul>
+      </>
+    );
+  };
+
+  const sideCallout = callout && calloutRegion && !callout.docked && callout.size ? callout : null;
+  const dockedRegion = callout?.docked && calloutOpen ? calloutRegion : null;
+  let leader: { points: string; endX: number; y: number } | null = null;
+  if (sideCallout) {
+    const size = sideCallout.size;
+    const center = size / 2;
+    const radius = center - 6;
+    const dir = sideCallout.side === "left" ? -1 : 1;
+    const y = Math.max(CALLOUT_EDGE, Math.min(size - CALLOUT_EDGE, sideCallout.y));
+    const elbowX = center + dir * (radius + 14);
+    const endX = sideCallout.side === "left" ? -CALLOUT_GAP : size + CALLOUT_GAP;
+    leader = {
+      points: `${sideCallout.x},${sideCallout.y} ${elbowX},${y} ${endX},${y}`,
+      endX,
+      y,
+    };
   }
 
   return (
@@ -539,6 +651,36 @@ export default function RaceGlobe({
               updateHover(null);
             }}
           />
+
+          {sideCallout && calloutRegion && leader ? (
+            <div
+              className="race-globe__overlay"
+              data-open={calloutOpen ? "true" : "false"}
+              data-side={sideCallout.side}
+              aria-hidden={!calloutOpen}
+            >
+              <svg
+                key={`leader-${sideCallout.id}`}
+                className="race-globe__leader"
+                width={sideCallout.size}
+                height={sideCallout.size}
+                data-status={calloutRegion.status}
+              >
+                <polyline points={leader.points} pathLength={1} />
+                <circle className="race-globe__leader-ring" cx={sideCallout.x} cy={sideCallout.y} r={9} />
+                <circle className="race-globe__leader-dot" cx={sideCallout.x} cy={sideCallout.y} r={3.6} />
+                <circle className="race-globe__leader-end" cx={leader.endX} cy={leader.y} r={2.6} />
+              </svg>
+              <div
+                key={`card-${sideCallout.id}`}
+                className="race-globe__callout"
+                data-status={calloutRegion.status}
+                style={{ top: leader.y, width: CALLOUT_WIDTH }}
+              >
+                {renderCalloutCard(calloutRegion)}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <div className="race-globe__dock">
@@ -568,15 +710,13 @@ export default function RaceGlobe({
             </span>
           </button>
 
-          {hover ? (
-            <div className="race-globe__tooltip">
-              <div className="flex items-center gap-2">
-                <Flag flag={hover.flagCode} />
-                <span className="font-semibold">{hover.label}</span>
-              </div>
-              <div className="rc-mono text-xs text-muted-foreground mt-1">
-                {hover.online}/{hover.total} online
-              </div>
+          {dockedRegion ? (
+            <div
+              key={`docked-${callout?.id}`}
+              className="race-globe__callout race-globe__callout--docked"
+              data-status={dockedRegion.status}
+            >
+              {renderCalloutCard(dockedRegion)}
             </div>
           ) : (
             <p className="race-globe__hint">

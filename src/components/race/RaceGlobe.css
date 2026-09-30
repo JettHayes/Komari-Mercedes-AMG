@@ -241,14 +241,250 @@
   box-shadow: 0 0 10px color-mix(in oklab, var(--amg-teal) 45%, transparent);
 }
 
-.race-globe__tooltip {
+.race-globe__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
   pointer-events: none;
-  min-width: 160px;
-  padding: 0.65rem 0.85rem;
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.race-globe__overlay[data-open="false"] {
+  opacity: 0;
+}
+
+.race-globe__leader {
+  --callout-accent: var(--amg-ok);
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.race-globe__leader[data-status="partial"],
+.race-globe__callout[data-status="partial"] {
+  --callout-accent: var(--amg-warn);
+}
+
+.race-globe__leader[data-status="offline"],
+.race-globe__callout[data-status="offline"] {
+  --callout-accent: var(--amg-crit);
+}
+
+.race-globe__leader polyline {
+  fill: none;
+  stroke: var(--amg-teal);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 4px color-mix(in oklab, var(--amg-teal) 55%, transparent));
+  animation: race-globe-leader-draw 340ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.race-globe__leader-dot {
+  fill: var(--callout-accent);
+  stroke: #fff;
+  stroke-width: 1.4;
+}
+
+.race-globe__leader-ring {
+  fill: none;
+  stroke: var(--amg-teal);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: race-globe-leader-ring 1.6s ease-out infinite;
+}
+
+.race-globe__leader-end {
+  fill: var(--amg-teal);
+  opacity: 0;
+  animation: race-globe-fade-in 160ms ease 300ms forwards;
+}
+
+.race-globe__callout {
+  --callout-accent: var(--amg-ok);
+  --callout-shift: 14px;
+  position: absolute;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem 0.8rem;
+  border: 1px solid color-mix(in oklab, var(--amg-teal) 30%, var(--amg-glass-border));
   border-radius: 0.85rem;
-  border: 1px solid var(--amg-glass-border);
-  background: var(--amg-glass-lite);
-  box-shadow: var(--amg-panel-shadow);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--amg-glass-solid) 94%, white),
+      color-mix(in oklab, var(--amg-glass-solid) 82%, transparent)
+    );
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.35) inset,
+    0 18px 36px -18px rgb(8 18 20 / 0.5);
+  backdrop-filter: blur(14px);
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: race-globe-callout-in 280ms cubic-bezier(0.22, 1, 0.36, 1) 180ms forwards;
+}
+
+.race-globe__callout::before {
+  content: "";
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--callout-accent);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--callout-accent) 55%, transparent);
+}
+
+.race-globe__overlay[data-side="left"] .race-globe__callout {
+  right: calc(100% + 44px);
+}
+
+.race-globe__overlay[data-side="left"] .race-globe__callout::before {
+  right: -2px;
+}
+
+.race-globe__overlay[data-side="right"] .race-globe__callout {
+  --callout-shift: -14px;
+  left: calc(100% + 44px);
+}
+
+.race-globe__overlay[data-side="right"] .race-globe__callout::before {
+  left: -2px;
+}
+
+.race-globe__callout--docked {
+  position: relative;
+  width: min(100%, 17.5rem);
+  transform: none;
+  --callout-shift: 0px;
+  animation-name: race-globe-callout-rise;
+  animation-delay: 0ms;
+}
+
+.race-globe__callout--docked::before {
+  left: -2px;
+}
+
+.race-globe__callout-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.race-globe__callout-code {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--amg-teal);
+}
+
+.race-globe__callout-status {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--callout-accent);
+  background: color-mix(in oklab, var(--callout-accent) 14%, transparent);
+  border: 1px solid color-mix(in oklab, var(--callout-accent) 32%, transparent);
+}
+
+.race-globe__callout-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.race-globe__callout-title > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.race-globe__callout-sub {
+  margin-top: -0.3rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.race-globe__callout-meter {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--amg-ink) 12%, transparent);
+}
+
+.race-globe__callout-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--amg-teal), var(--callout-accent));
+  transform-origin: left;
+  animation: race-globe-meter-fill 520ms cubic-bezier(0.22, 1, 0.36, 1) 260ms both;
+}
+
+.race-globe__callout-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: var(--muted-foreground);
+}
+
+.race-globe__callout-online {
+  color: var(--amg-ok);
+}
+
+.race-globe__callout-nodes {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.45rem 0 0;
+  list-style: none;
+  border-top: 1px solid var(--amg-glass-border);
+}
+
+.race-globe__callout-nodes > li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  font-size: 0.74rem;
+}
+
+.race-globe__callout-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amg-crit);
+}
+
+.race-globe__callout-nodes > li[data-online="true"] .race-globe__callout-dot {
+  background: var(--amg-ok);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--amg-ok) 60%, transparent);
+}
+
+.race-globe__callout-node {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.race-globe__callout-more {
+  font-size: 0.66rem;
+  color: var(--muted-foreground);
 }
 
 .race-globe__hint {
@@ -265,6 +501,60 @@
 @keyframes race-globe-orbit-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes race-globe-leader-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes race-globe-leader-ring {
+  from {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes race-globe-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes race-globe-callout-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--callout-shift), -50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes race-globe-callout-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes race-globe-meter-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 
@@ -291,7 +581,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .race-globe__orbit[data-live="true"] .race-globe__orbit-icon {
+  .race-globe__orbit[data-live="true"] .race-globe__orbit-icon,
+  .race-globe__leader-ring {
     animation: none;
+  }
+
+  .race-globe__leader polyline,
+  .race-globe__leader-end,
+  .race-globe__callout,
+  .race-globe__callout-meter > span {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
   }
 }
