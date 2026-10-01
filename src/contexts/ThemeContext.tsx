@@ -491,9 +491,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [adminState, persistManagedSettings]);
 
+  const appearanceKnown = Boolean(localAppearanceOverride) || isThemeLoaded;
+
   useEffect(() => {
+    if (!appearanceKnown) return;
     setNextTheme(appearance);
-  }, [appearance, setNextTheme]);
+  }, [appearance, appearanceKnown, setNextTheme]);
 
   useEffect(() => {
     const nextLanguage = normalizeLanguage(language) || DEFAULT_LANGUAGE;

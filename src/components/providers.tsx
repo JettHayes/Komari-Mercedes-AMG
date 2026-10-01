@@ -29,6 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <NextThemesProvider
       attribute="class"
       defaultTheme="light"
+      storageKey="komari-next-theme"
       enableSystem={false}
       disableTransitionOnChange
     >
