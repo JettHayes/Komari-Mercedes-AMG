@@ -858,6 +858,7 @@
     "uplink": "Uplink",
     "downlink": "Downlink",
     "traffic": "Traffic",
+    "trafficNoLimit": "No traffic limit",
     "raceAlerts": "Node Alerts",
     "alerts": "Alerts",
     "allSystemsGreen": "No active alerts.",

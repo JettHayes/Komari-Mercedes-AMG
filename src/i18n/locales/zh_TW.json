@@ -858,6 +858,7 @@
     "uplink": "上行",
     "downlink": "下行",
     "traffic": "流量",
+    "trafficNoLimit": "未設定限額",
     "raceAlerts": "節點告警",
     "alerts": "警示",
     "allSystemsGreen": "暫無告警。",

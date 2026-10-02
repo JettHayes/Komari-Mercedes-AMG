@@ -18,6 +18,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getRegionDisplayName } from "@/utils/regionHelper";
 import { NodeBillingMeta } from "@/components/race/NodeBillingMeta";
+import { TrafficQuota } from "@/components/race/TrafficQuota";
 
 function localizeGroupLabel(group: string, t: (key: string, options?: { defaultValue?: string }) => string) {
   const key = group.trim().replace(/\s+/g, "_");
@@ -32,7 +33,6 @@ function TimingTower({
   liveData: LiveData;
 }) {
   const { t, i18n } = useTranslation();
-  const { themeConfig } = useTheme();
   const onlineSet = new Set(liveData.online);
   const regionLang = i18n.language?.toLowerCase().startsWith("zh") ? "zh" : "en";
 
@@ -91,14 +91,10 @@ function TimingTower({
             <StatusMeter value={cpu} showValue />
             <StatusMeter value={ram} showValue />
             <StatusMeter value={disk} showValue />
-            <div className="rc-mono text-xs">
+            <div className="rc-mono text-xs min-w-0">
               <div>↑ {formatSpeed(rec?.network.up ?? 0)}</div>
               <div className="text-muted-foreground">↓ {formatSpeed(rec?.network.down ?? 0)}</div>
-              {themeConfig.showRamDiskTotal && rec ? (
-                <div className="text-[10px] text-muted-foreground mt-0.5">
-                  {formatBytes(rec.network.totalUp)} / {formatBytes(rec.network.totalDown)}
-                </div>
-              ) : null}
+              <TrafficQuota node={node} rec={rec} variant="inline" className="mt-1" />
             </div>
             <NodeBillingMeta node={node} layout="cells" />
             <div className="rc-mono text-xs">{formatUptime(rec?.uptime ?? 0)}</div>
@@ -151,6 +147,7 @@ function TelemetryCards({
               <StatusMeter label={t("raceControl.cpu")} value={cpu} />
               <StatusMeter label={t("raceControl.ram")} value={ram} />
               <StatusMeter label={t("raceControl.disk")} value={disk} />
+              <TrafficQuota node={node} rec={rec} variant="compact" />
             </div>
             <div className="mt-3 flex items-center justify-between gap-2 rc-mono text-xs text-muted-foreground">
               <span>↑ {formatSpeed(rec?.network.up ?? 0)}</span>
@@ -266,6 +263,8 @@ function DossierCards({
               />
             </div>
 
+            <TrafficQuota node={node} rec={rec} variant="large" />
+
             <dl className="rc-dossier__telemetry">
               <div>
                 <dt>↑ {t("raceControl.uplink")}</dt>
@@ -274,12 +273,6 @@ function DossierCards({
               <div>
                 <dt>↓ {t("raceControl.downlink")}</dt>
                 <dd className="rc-mono">{formatSpeed(rec?.network.down ?? 0)}</dd>
-              </div>
-              <div>
-                <dt>{t("raceControl.traffic")}</dt>
-                <dd className="rc-mono">
-                  {rec ? `${formatBytes(rec.network.totalUp)} / ${formatBytes(rec.network.totalDown)}` : "—"}
-                </dd>
               </div>
               <div>
                 <dt>{t("raceControl.uptime")}</dt>
@@ -297,15 +290,16 @@ function DossierCards({
                   {rec ? `${rec.connections.tcp} / ${rec.connections.udp}` : "—"}
                 </dd>
               </div>
+              <div>
+                <dt>{t("raceControl.processes")}</dt>
+                <dd className="rc-mono">{rec?.process ?? "—"}</dd>
+              </div>
             </dl>
 
             <NodeBillingMeta node={node} layout="row" />
 
             <div className="rc-dossier__foot">
               <span className="truncate">{node.cpu_name || t("raceControl.unknown")}</span>
-              <span className="rc-mono shrink-0">
-                {t("raceControl.processes")} {rec?.process ?? "—"}
-              </span>
             </div>
           </SpaLink>
         );
